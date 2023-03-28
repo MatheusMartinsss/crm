@@ -1,0 +1,3 @@
+[submodule "crm-client"]
+	path = crm-client
+	url = https://github.com/MatheusMartinsss/crm-client.git
