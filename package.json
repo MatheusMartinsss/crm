@@ -1,0 +1,10 @@
+{
+  "name": "crm",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "install-depencies": "npm install && cd crm-server && npm install && cd ../crm-client && npm install"
+  },
+  "author": "",
+  "license": "ISC"
+}

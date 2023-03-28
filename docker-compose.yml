@@ -1,0 +1,54 @@
+version: '3'
+
+networks:
+  local:
+    driver: bridge
+services:
+
+  web:
+    build:
+      context: ./crm-client
+      dockerfile: Dockerfile
+    expose:
+      - "3000:3000"
+    volumes:
+      - ./crm-client:/web
+    depends_on:
+      - db
+    networks:
+      - local
+
+  server:
+    build:
+      context: ./crm-server
+      dockerfile: Dockerfile
+    expose:
+      - "8080:8080"
+    volumes:
+      - ./crm-server:/server
+    depends_on:
+      - db
+    networks:
+      - local
+
+  db:
+    image: postgres
+    networks:
+      - local
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: crm
+      
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - local    
+
