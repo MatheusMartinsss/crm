@@ -1,3 +1,6 @@
 [submodule "crm-server"]
 	path = crm-server
 	url = https://github.com/MatheusMartinsss/crm-server.git
+[submodule "crm-client"]
+	path = crm-client
+	url = https://github.com/MatheusMartinsss/crm-client.git
