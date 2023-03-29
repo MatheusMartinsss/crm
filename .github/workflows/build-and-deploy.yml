@@ -18,6 +18,9 @@ jobs:
   build_and_push:
     runs-on: ubuntu-latest
     steps:
+      - name: Print DigitalOcean access token
+        run: echo ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}   
+         
       - name: Checkout the Repo
         uses: actions/checkout@v3
 
