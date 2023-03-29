@@ -38,4 +38,7 @@ jobs:
           key: ${{ secrets.SSHKEY }}
           passphrase: ${{ secrets.PASSPHRASE }}        
           port: 22
+          script: |
+            whoami
+            ls -al
 
