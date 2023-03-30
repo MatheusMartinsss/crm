@@ -47,6 +47,18 @@ jobs:
             npm run install-dependencies
             echo 'Deployment sucessful'
             docker-compose up --build
+      - name: Criar .env crm-server
+        run: |
+          cd crm-server
+          echo "PORT = 8080
+          DB_DIALECT = postgres
+          DB_HOST = localhost
+          DB_NAME = crm
+          DB_PORT = 5432
+          DB_PWD = postgres
+          DB_USER = postgres
+          NODE_ENV = development
+          TOKEN_SECRET_KEY = ahaseaseesaee" > .env    
         
       
       
