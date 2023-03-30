@@ -46,6 +46,7 @@ jobs:
             git pull
             npm run install-dependencies
             echo 'Deployment sucessful'
+            docker-compose up --build
         
       
       

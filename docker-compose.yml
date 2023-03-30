@@ -9,7 +9,7 @@ services:
     build:
       context: ./crm-client
       dockerfile: Dockerfile
-    expose:
+    ports:
       - "3000:3000"
     volumes:
       - ./crm-client:/web
@@ -22,7 +22,7 @@ services:
     build:
       context: ./crm-server
       dockerfile: Dockerfile
-    expose:
+    ports:
       - "8080:8080"
     volumes:
       - ./crm-server:/server
