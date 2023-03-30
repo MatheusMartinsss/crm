@@ -38,7 +38,7 @@ jobs:
           key: ${{ secrets.SSHKEY }}  
           port: 22
       - name: Git pull
-        run: cd /home/crm && git pull
+        run: ls
         
       
       
