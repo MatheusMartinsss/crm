@@ -37,8 +37,8 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}  
           port: 22
-      - name: Clone repository
-        run: git clone https://github.com/${{ github.repository }}
+      - name: Git pull
+        run: cd home && cd crm && git pull
         
       
       
