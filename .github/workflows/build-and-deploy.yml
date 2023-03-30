@@ -44,7 +44,7 @@ jobs:
             cd crm
             git submodule update --init
             git pull
-            npm run install-depencies
+            npm run install-dependencies
             echo 'Deployment sucessful'
         
       
