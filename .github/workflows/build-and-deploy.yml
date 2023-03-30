@@ -43,6 +43,7 @@ jobs:
             git clone https://github.com/${{ github.repository }}
             cd crm
             git submodule update --init
+            git pull
             npm run install-depencies
             echo 'Deployment sucessful'
         
