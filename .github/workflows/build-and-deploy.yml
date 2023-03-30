@@ -46,7 +46,7 @@ jobs:
             git pull
             npm run install-dependencies
             echo 'Deployment sucessful'
-            docker-compose up --build
+            docker-compose up -d --build
       - name: Criar .env crm-server
         run: |
           cd crm-server
