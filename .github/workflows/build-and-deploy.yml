@@ -37,8 +37,13 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SSHKEY }}  
           port: 22
-      - name: Git pull
-        run: ls
+          script: |
+            mkdir app
+            cd app
+            git clone https://github.com/${{ github.repository }}
+            cd crm
+            git submodule update --init
+            echo 'Deployment sucessful'
         
       
       
