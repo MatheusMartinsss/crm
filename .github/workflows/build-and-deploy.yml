@@ -46,6 +46,7 @@ jobs:
             git submodule update --init
             sudo docker-compose stop
             cd crm-server
+            touch .env
             echo "PORT=8080" > .env
             echo "DB_DIALECT=postgres" >> .env
             echo "DB_HOST=localhost" >> .env
@@ -57,6 +58,7 @@ jobs:
             echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env
             cd ..
             cd crm-client
+            touch .env
             echo "REACT_APP_API_URL = localhost:8080/api" >> .env
             cd ..
             npm run install-dependencies
