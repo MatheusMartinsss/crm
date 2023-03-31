@@ -42,8 +42,9 @@ jobs:
             cd app
             git clone https://github.com/${{ github.repository }}
             cd crm
-            git submodule update --init
             git pull
+            git submodule update --init
+            sudo docker-compose stop
             cd crm-server
             echo PORT = 8080 >> .env
             echo DB_DIALECT = postgres >> .env
