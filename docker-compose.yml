@@ -13,6 +13,7 @@ services:
       - "3000:3000"
     volumes:
       - ./crm-client:/web
+      - ./crm-client/build:/app/build
     depends_on:
       - db
     networks:
