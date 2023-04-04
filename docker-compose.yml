@@ -3,6 +3,9 @@ version: '3'
 networks:
   local:
     driver: bridge
+volumes:
+  pgdata:
+    driver: local    
 services:
 
   web:
@@ -43,7 +46,7 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: crm
     volumes:
-      - pgdata:/var/lib/postgresql/data  
+      - pgdata:/var/lib/postgresql/data 
       
   nginx:
     image: nginx:latest
