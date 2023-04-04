@@ -42,6 +42,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: crm
+    volumes:
+      - pgdata:/var/lib/postgresql/data  
       
   nginx:
     image: nginx:latest
