@@ -57,6 +57,7 @@ jobs:
             echo "DB_USER=postgres" > .env
             echo "NODE_ENV=development" > .env
             echo "TOKEN_SECRET_KEY=ahaseaseesaee" > .env
+            npm sequelize db:migrate
             cd ..
             cd crm-client
             touch .env
