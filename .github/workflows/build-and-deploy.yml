@@ -47,8 +47,7 @@ jobs:
             git pull
       - name: Create .env from crm-server
         run: |
-          pwd
-          ls -la
+          cd crm-server
           if [ -f .env ]; then
             rm .env
           fi
