@@ -48,15 +48,15 @@ jobs:
             sudo docker-compose stop
             cd crm-server
             touch .env
-            echo "PORT=8080" > .env
-            echo "DB_DIALECT=postgres" > .env
-            echo "DB_HOST=db" > .env
-            echo "DB_NAME=crm" > .env
-            echo "DB_PORT=5432" > .env
-            echo "DB_PWD=postgres" > .env
-            echo "DB_USER=postgres" > .env
-            echo "NODE_ENV=development" > .env
-            echo "TOKEN_SECRET_KEY=ahaseaseesaee" > .env
+            echo "PORT=8080" >> .env
+            echo "DB_DIALECT=postgres" >> .env
+            echo "DB_HOST=db" >> .env
+            echo "DB_NAME=crm" >> .env
+            echo "DB_PORT=5432" >> .env
+            echo "DB_PWD=postgres" >> .env
+            echo "DB_USER=postgres" >> .env
+            echo "NODE_ENV=development" >> .env
+            echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env
             cd ..
             cd crm-client
             touch .env
