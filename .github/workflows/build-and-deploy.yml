@@ -67,7 +67,7 @@ jobs:
               rm .env
             fi
             touch .env
-            echo "REACT_APP_API_URL = http://localhost:8080/api" > .env
+            echo "REACT_APP_API_URL = http://server:8080/api" > .env
             cd ..
 
             sudo docker-compose stop
