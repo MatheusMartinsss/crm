@@ -18,7 +18,7 @@ services:
       - ./crm-client:/web
       - ./crm-client/build:/app/build
     depends_on:
-      - db
+      - server
     networks:
       - local
 
