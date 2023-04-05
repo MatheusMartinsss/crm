@@ -46,8 +46,12 @@ jobs:
             git submodule update --remote
             git pull
       - name: Create .env from crm-server
-        working-directory: /app/crm/crm-server
         run: |
+          cd app
+          cd crm
+          cd crm-server
+          pwd
+          ls -la
           if [ -f .env ]; then
             rm .env
           fi
