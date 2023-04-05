@@ -46,7 +46,7 @@ jobs:
             git submodule update --remote
             git pull
       - name: Create .env from crm-server
-        working-directory: ./root/app/crm/crm-client
+        working-directory: /root/app/crm/crm-client
         run: |
           if [ -f .env ]; then
             rm .env
@@ -62,7 +62,7 @@ jobs:
           echo "NODE_ENV=development" >> .env
           echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env 
       - name: Create .env from crm-client
-        working-directory: ./root/app/crm/crm-client
+        working-directory: /root/app/crm/crm-client
         run: |
             if [ -f .env ]; then
               rm .env
