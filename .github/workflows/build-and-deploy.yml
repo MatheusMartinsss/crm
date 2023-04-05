@@ -45,37 +45,36 @@ jobs:
             git submodule update --init
             git submodule update --remote
             git pull
-      - name: Create .env from crm-server
-        working-directory: /root/app/crm/crm-client
-        run: |
-          if [ -f .env ]; then
-            rm .env
-          fi
-          touch .env
-          echo "PORT=8080" >> .env
-          echo "DB_DIALECT=postgres" >> .env
-          echo "DB_HOST=db" >> .env
-          echo "DB_NAME=crm" >> .env
-          echo "DB_PORT=5432" >> .env
-          echo "DB_PWD=postgres" >> .env
-          echo "DB_USER=postgres" >> .env
-          echo "NODE_ENV=development" >> .env
-          echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env 
-      - name: Create .env from crm-client
-        working-directory: /root/app/crm/crm-client
-        run: |
+
+            cd crm-server
+            if [ -f .env ]; then
+              rm .env
+            fi
+            touch .env
+            echo "PORT=8080" >> .env
+            echo "DB_DIALECT=postgres" >> .env
+            echo "DB_HOST=db" >> .env
+            echo "DB_NAME=crm" >> .env
+            echo "DB_PORT=5432" >> .env
+            echo "DB_PWD=postgres" >> .env
+            echo "DB_USER=postgres" >> .env
+            echo "NODE_ENV=development" >> .env
+            echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env 
+            cd ..
+
+            cd crm-client
             if [ -f .env ]; then
               rm .env
             fi
             touch .env
             echo "REACT_APP_API_URL = http://localhost:8080/api" > .env
-      - name: re-build docker-compose
-        working-directory: ./app/crm
-        run: |
-          sudo docker-compose stop
-          npm run install-dependencies
-          sudo docker-compose up -d --build
-          echo 'Deployment sucessful'
+            cd ..
+
+            sudo docker-compose stop
+            npm run install-dependencies
+            sudo docker-compose up -d --build
+            echo 'Deployment sucessful'
+     
       
         
         
