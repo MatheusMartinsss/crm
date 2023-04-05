@@ -47,6 +47,7 @@ jobs:
             git pull
       - name: Create .env from crm-server
         run: |
+          pwd
           whoami
           ls -al
           cd crm-server
