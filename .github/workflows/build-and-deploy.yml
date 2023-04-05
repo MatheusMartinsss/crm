@@ -50,7 +50,7 @@ jobs:
             touch .env
             echo "PORT=8080" > .env
             echo "DB_DIALECT=postgres" > .env
-            echo "DB_HOST=localhost" > .env
+            echo "DB_HOST=db" > .env
             echo "DB_NAME=crm" > .env
             echo "DB_PORT=5432" > .env
             echo "DB_PWD=postgres" > .env
