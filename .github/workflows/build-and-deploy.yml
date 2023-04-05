@@ -45,27 +45,39 @@ jobs:
             git submodule update --init
             git submodule update --remote
             git pull
-            sudo docker-compose stop
-            cd crm-server
-            touch .env
-            echo "PORT=8080" >> .env
-            echo "DB_DIALECT=postgres" >> .env
-            echo "DB_HOST=db" >> .env
-            echo "DB_NAME=crm" >> .env
-            echo "DB_PORT=5432" >> .env
-            echo "DB_PWD=postgres" >> .env
-            echo "DB_USER=postgres" >> .env
-            echo "NODE_ENV=development" >> .env
-            echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env
-            cd ..
-            cd crm-client
+      - name: Create .env from crm-server
+        working-directory: ./app/crm/crm-server
+        run: |
+          if [ -f .env ]; then
+            rm .env
+          fi
+          touch .env
+          echo "PORT=8080" >> .env
+          echo "DB_DIALECT=postgres" >> .env
+          echo "DB_HOST=db" >> .env
+          echo "DB_NAME=crm" >> .env
+          echo "DB_PORT=5432" >> .env
+          echo "DB_PWD=postgres" >> .env
+          echo "DB_USER=postgres" >> .env
+          echo "NODE_ENV=development" >> .env
+          echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env 
+      - name: Create .env from crm-client
+        working-directory: ./app/crm/crm-client
+        run: |
+            if [ -f .env ]; then
+              rm .env
+            fi
             touch .env
             echo "REACT_APP_API_URL = http://localhost:8080/api" > .env
-            cd ..
-            npm run install-dependencies
-            sudo docker-compose up -d --build
-            echo 'Deployment sucessful'
-
+      - name: re-build docker-compose
+        working-directory: ./app/crm
+        run: |
+          sudo docker-compose stop
+          npm run install-dependencies
+          sudo docker-compose up -d --build
+          echo 'Deployment sucessful'
+      
+        
         
       
       
