@@ -46,29 +46,21 @@ jobs:
             git submodule update --remote
             git pull
 
-            cd crm-server
             if [ -f .env ]; then
               rm .env
             fi
             touch .env
-            echo "PORT=8080" >> .env
-            echo "DB_DIALECT=postgres" >> .env
-            echo "DB_HOST=db" >> .env
-            echo "DB_NAME=crm" >> .env
-            echo "DB_PORT=5432" >> .env
-            echo "DB_PWD=postgres" >> .env
-            echo "DB_USER=postgres" >> .env
-            echo "NODE_ENV=development" >> .env
-            echo "TOKEN_SECRET_KEY=ahaseaseesaee" >> .env 
-            cd ..
-
-            cd crm-client
-            if [ -f .env ]; then
-              rm .env
-            fi
-            touch .env
-            echo "REACT_APP_API_URL = http://localhost:8080/api" > .env
-            cd ..
+            echo "PORT=${{secrets.API_PORT}}" >> .env
+            echo "DB_DIALECT=${{secrets.DB_DIALECT}}" >> .env
+            echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
+            echo "DB_NAME=${{secrets.DB_NAME}}" >> .env
+            echo "DB_PORT=${{secrets.DB_PORT}}" >> .env
+            echo "DB_PWD=${{secrets.DB_PASSWORD}}" >> .env
+            echo "DB_USER=${{secrets.DB_USER}}" >> .env
+            echo "NODE_ENV=${{secrets.NODE_ENV}}" >> .env
+            echo "TOKEN_SECRET_KEY=${{secrets.TOKEN_SECRET_KEY}}" >> .env 
+            echo "REACT_APP_API_URL=${{secrets.REACT_API_URL}}" >> .env 
+            echo "HOST=${{secrets.HOST}}" >> .env 
 
             sudo docker-compose stop
             npm run install-dependencies

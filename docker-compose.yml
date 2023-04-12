@@ -17,6 +17,8 @@ services:
     volumes:
       - ./crm-client:/web
       - ./crm-client/build:/app/build
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL} 
     depends_on:
       - server
     networks:
@@ -28,6 +30,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    environment:
+      PORT: ${PORT}
+      DB_DIALECT: ${DB_DIALECT}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_PWD: ${DB_PWD}
+      DB_USER: ${DB_USER}
+      NODE_ENV: ${NODE_ENV}
+      TOKEN_SECRET_KEY: ${TOKEN_SECRET_KEY}  
     volumes:
       - ./crm-server:/server
     depends_on:
@@ -50,22 +62,39 @@ services:
       timeout: 10s
       retries: 5  
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: crm
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PWD}
+      POSTGRES_DB: ${DB_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data 
       
+  nginx-envsubst:
+    image: alpine
+    command: sh -c "apk add --no-cache gettext && envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf"
+    volumes:
+      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
+      - ./nginx/default.template:/etc/nginx/sites-available/default.template
+    depends_on:
+      - server
+      - db
+    networks:
+      - local
+
   nginx:
     image: nginx:latest
     ports:
       - "80:80"
     restart: unless-stopped
     depends_on:
-      - server
+      - nginx-envsubst
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./crm-client/build:/usr/share/nginx/html
+      - ./nginx/default:/etc/nginx/sites-enabled/default
     networks:
-      - local    
+      - local
+    environment:
+      - HOST=${HOST}
+      - API_PORT=${PORT}
+      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/sites-available
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
 
