@@ -44,6 +44,7 @@ jobs:
             cd crm
             git submodule update --init
             git submodule update --remote
+            git reset --hard HEAD
             git pull --force
 
             if [ -f .env ]; then
