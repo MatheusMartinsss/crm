@@ -44,6 +44,7 @@ jobs:
             cd app
             git clone https://github.com/${{ github.repository }}
             cd crm
+            git checkout develop
             git submodule update --init
             git submodule update --remote
             git reset --hard HEAD
