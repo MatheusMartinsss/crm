@@ -12,13 +12,16 @@ services:
     build:
       context: ./crm-client
       dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
     volumes:
       - ./crm-client:/web
       - ./crm-client/build:/app/build
+    env_file:
+      - .env  
     environment:
       REACT_APP_API_URL: ${REACT_APP_API_URL} 
+      REACT_APP_PORT: ${REACT_APP_PORT}
+    ports:
+      - "${REACT_APP_PORT}:${REACT_APP_PORT}"
     depends_on:
       - server
     networks:
@@ -29,7 +32,9 @@ services:
       context: ./crm-server
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env    
     environment:
       PORT: ${PORT}
       DB_DIALECT: ${DB_DIALECT}
@@ -60,7 +65,9 @@ services:
       test: ["CMD-SHELL", "pg_isready -U postgres -d crm"]
       interval: 30s
       timeout: 10s
-      retries: 5  
+      retries: 5
+    env_file:
+      - .env      
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PWD}
@@ -79,6 +86,8 @@ services:
       - db
     networks:
       - local
+    env_file:
+      - .env   
 
   nginx:
     image: nginx:latest
@@ -92,9 +101,10 @@ services:
       - ./nginx/default:/etc/nginx/sites-enabled/default
     networks:
       - local
+    env_file:
+      - .env  
     environment:
       - HOST=${HOST}
       - API_PORT=${PORT}
       - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/sites-available
       - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
-
