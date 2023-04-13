@@ -1,0 +1,114 @@
+version: '3'
+
+networks:
+  local:
+    driver: bridge
+volumes:
+  pgdata:
+    driver: local    
+
+services:
+
+  web:
+    build:
+      context: ./crm-client
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${REACT_APP_PORT}:${REACT_APP_PORT}"
+    volumes:
+      - ./crm-client:/web
+      - ./crm-client/build:/app/build  
+    environment:
+      REACT_APP_API_URL: ${REACT_APP_API_URL} 
+      REACT_APP_PORT: ${REACT_APP_PORT}
+    env_file:
+      - .env.dev  
+    depends_on:
+      - server
+    networks:
+      - local
+
+  server:
+    build:
+      context: ./crm-server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "${PORT}:${PORT}"
+    env_file:
+      - .env.dev  
+    environment:
+      PORT: ${PORT}
+      DB_DIALECT: ${DB_DIALECT}
+      DB_HOST: ${DB_HOST}
+      DB_NAME: ${DB_NAME}
+      DB_PORT: ${DB_PORT}
+      DB_PWD: ${DB_PWD}
+      DB_USER: ${DB_USER}
+      NODE_ENV: ${NODE_ENV}
+      TOKEN_SECRET_KEY: ${TOKEN_SECRET_KEY}  
+    volumes:
+      - ./crm-server:/server
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - local
+    command: sh -c 'npx sequelize db:migrate && npm start'  
+
+  db:
+    image: postgres:latest
+    networks:
+      - local
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    env_file:
+      - .env.dev
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d crm"]
+      interval: 30s
+      timeout: 10s
+      retries: 5  
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PWD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - pgdata:/var/lib/postgresql/data 
+      
+  nginx-envsubst:
+    image: alpine
+    command: sh -c "apk add --no-cache gettext && envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf"
+    volumes:
+      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
+      - ./nginx/default.template:/etc/nginx/sites-available/default.template
+    depends_on:
+      - server
+      - db
+    env_file:
+      - .env.dev  
+    networks:
+      - local
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    restart: unless-stopped
+    depends_on:
+      - nginx-envsubst
+    volumes:
+      - ./crm-client/build:/usr/share/nginx/html
+      - ./nginx/default:/etc/nginx/sites-enabled/default
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.dev.conf
+    networks:
+      - local
+    env_file:
+      - .env.dev  
+    environment:
+      - HOST=${HOST}
+      - API_PORT=${PORT}
+      - NGINX_ENVSUBST_OUTPUT_DIR=/etc/nginx/sites-available
+      - NGINX_ENVSUBST_TEMPLATE_SUFFIX=.template
+      - NGINX_CONF_FILE=nginx.dev.conf
+
