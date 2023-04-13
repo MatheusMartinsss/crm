@@ -4,17 +4,22 @@ CRM
 Esse projeto foi criado com intuito de estudos e casos de uso.
 Seguindo os principios SOLID e Clean Architeture.
 
-SERVER
+Server
 ----------
 Servidor desenvolvido utilizando:
-> EXPRESS
-> Sequelize
-> Postgres
+* Express
+* Sequelize
+* Postgres
 
 Client
 ---------
 Client desenvolvido utilizando:
-> React js
-> Material UI
-> Context API
+* React js
+* Material UI
+* Context API
 
+Devops
+----------
+* Docker Compose
+* Nginx
+* Github Actions
