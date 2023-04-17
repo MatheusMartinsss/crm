@@ -65,7 +65,7 @@ jobs:
             echo "REACT_APP_PORT=${{secrets.REACT_APP_PORT}}"
             echo "HOST=${{secrets.HOST}}" >> .env 
 
-            sudo docker-compose -f docker-compose.yml down
+            sudo docker-compose  down
             sudo docker-compose -f docker-compose.yml --env-file .env up -d --build
             echo 'Deployment sucessful'
      

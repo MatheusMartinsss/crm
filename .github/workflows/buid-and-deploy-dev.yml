@@ -56,7 +56,7 @@ jobs:
             touch .env
             echo "PORT=${{secrets.DEV_API_PORT}}" >> .env
             echo "DB_DIALECT=${{secrets.DB_DIALECT}}" >> .env
-            echo "DB_HOST=${{secrets.DB_HOST}}" >> .env.dev
+            echo "DB_HOST=${{secrets.DB_HOST}}" >> .env
             echo "DB_NAME=${{secrets.DEV_DB_NAME}}" >> .env
             echo "DB_PORT=${{secrets.DB_PORT}}" >> .env
             echo "DB_PWD=${{secrets.DEV_DB_PASSWORD}}" >> .env
@@ -67,7 +67,7 @@ jobs:
             echo "REACT_APP_PORT=${{secrets.DEV_REACT_APP_PORT}}" >> .env
             echo "HOST=${{secrets.DEV_HOST}}" >> .env 
 
-            sudo docker-compose -f docker-compose-dev.yml down
+            sudo docker-compose  down 
             npm run install-dependencies
             sudo docker-compose -f docker-compose-dev.yml up -d --build
             echo 'Deployment sucessful'
