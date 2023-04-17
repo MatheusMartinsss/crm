@@ -4,6 +4,7 @@ networks:
   local:
     driver: bridge
 volumes:
+  db-data:
   pgdata:
     driver: local    
 
@@ -22,7 +23,7 @@ services:
       REACT_APP_API_URL: ${REACT_APP_API_URL} 
       REACT_APP_PORT: ${REACT_APP_PORT}
     env_file:
-      - .env.dev  
+      - .env 
     depends_on:
       - server
     networks:
@@ -35,7 +36,7 @@ services:
     ports:
       - "${PORT}:${PORT}"
     env_file:
-      - .env.dev  
+      - .env
     environment:
       PORT: ${PORT}
       DB_DIALECT: ${DB_DIALECT}
@@ -63,18 +64,19 @@ services:
       - "5432:5432"
     restart: unless-stopped
     env_file:
-      - .env.dev
+      - .env
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d crm"]
       interval: 30s
       timeout: 10s
-      retries: 5  
+      retries: 5 
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PWD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
       - pgdata:/var/lib/postgresql/data 
+      - ./setup.sql:/docker-entrypoint-initdb.d/setup.sql
       
   nginx-envsubst:
     image: alpine
@@ -86,7 +88,7 @@ services:
       - server
       - db
     env_file:
-      - .env.dev  
+      - .env 
     networks:
       - local
 
@@ -104,7 +106,7 @@ services:
     networks:
       - local
     env_file:
-      - .env.dev  
+      - .env 
     environment:
       - HOST=${HOST}
       - API_PORT=${PORT}

@@ -40,8 +40,8 @@ jobs:
           key: ${{ secrets.SSHKEY }}  
           port: 22
           script: |
-            mkdir app
-            cd app
+            mkdir app-dev
+            cd app-dev
             git clone https://github.com/${{ github.repository }}
             cd crm
             git checkout develop
@@ -50,22 +50,22 @@ jobs:
             git reset --hard HEAD
             git pull --force
 
-            if [ -f .env.dev ]; then
-              rm .env.dev
+            if [ -f .env ]; then
+              rm .env
             fi
-            touch .env.dev
-            echo "PORT=${{secrets.DEV_API_PORT}}" >> .env.dev
-            echo "DB_DIALECT=${{secrets.DB_DIALECT}}" >> .env.dev
+            touch .env
+            echo "PORT=${{secrets.DEV_API_PORT}}" >> .env
+            echo "DB_DIALECT=${{secrets.DB_DIALECT}}" >> .env
             echo "DB_HOST=${{secrets.DB_HOST}}" >> .env.dev
-            echo "DB_NAME=${{secrets.DEV_DB_NAME}}" >> .env.dev
-            echo "DB_PORT=${{secrets.DB_PORT}}" >> .env.dev
-            echo "DB_PWD=${{secrets.DEV_DB_PASSWORD}}" >> .env.dev
-            echo "DB_USER=${{secrets.DEV_DB_USER}}" >> .env.dev
-            echo "NODE_ENV=${{secrets.DEV_NODE_ENV}}" >> .env.dev
-            echo "TOKEN_SECRET_KEY=${{secrets.TOKEN_SECRET_KEY}}" >> .env.dev 
-            echo "REACT_APP_API_URL=${{secrets.DEV_REACT_API_URL}}" >> .env.dev
-            echo "REACT_APP_PORT=${{secrets.DEV_REACT_APP_PORT}}" >> env.dev
-            echo "HOST=${{secrets.DEV_HOST}}" >> .env.dev 
+            echo "DB_NAME=${{secrets.DEV_DB_NAME}}" >> .env
+            echo "DB_PORT=${{secrets.DB_PORT}}" >> .env
+            echo "DB_PWD=${{secrets.DEV_DB_PASSWORD}}" >> .env
+            echo "DB_USER=${{secrets.DEV_DB_USER}}" >> .env
+            echo "NODE_ENV=${{secrets.DEV_NODE_ENV}}" >> .env
+            echo "TOKEN_SECRET_KEY=${{secrets.TOKEN_SECRET_KEY}}" >> .env 
+            echo "REACT_APP_API_URL=${{secrets.DEV_REACT_API_URL}}" >> .env
+            echo "REACT_APP_PORT=${{secrets.DEV_REACT_APP_PORT}}" >> .env
+            echo "HOST=${{secrets.DEV_HOST}}" >> .env 
 
             sudo docker-compose -f docker-compose-dev.yml down
             npm run install-dependencies
