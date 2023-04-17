@@ -15,7 +15,7 @@ services:
       context: ./crm-client
       dockerfile: Dockerfile.dev
     ports:
-      - "${REACT_APP_PORT}:${REACT_APP_PORT}"
+      - "3000:${REACT_APP_PORT}"
     volumes:
       - ./crm-client:/web
       - ./crm-client/build:/app/build  
