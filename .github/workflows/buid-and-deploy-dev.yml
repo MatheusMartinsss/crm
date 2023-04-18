@@ -47,9 +47,17 @@ jobs:
             git checkout develop
             git reset --hard HEAD
             git pull --force
-            git submodule update --init
-            git submodule update --remote
-
+            cd crm-client
+            git checkout develop
+            git reset --hard HEAD
+            git pull --force
+            cd ..
+            cd crm-server
+            git checkout develop
+            git reset --hard HEAD
+            git pull --force
+            cd ..
+            
             if [ -f .env ]; then
               rm .env
             fi
